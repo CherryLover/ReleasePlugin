@@ -6,7 +6,7 @@ apply plugin: 'maven'
 
 uploadArchives {
     repositories.mavenDeployer {
-        pom.version = '0.0.14'
+        pom.version = '0.0.15'
         pom.artifactId = 'apkplugin'
         pom.groupId = 'me.monster.lab'
         repository(url: "file:///Users/jiang/.m2/repository/")

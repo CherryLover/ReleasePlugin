@@ -30,13 +30,6 @@ public class MoveApkPlugin implements Plugin<Project> {
 
             @Override
             public void afterExecute(@NotNull Task task, @NotNull TaskState taskState) {
-                System.out.println("after " + task.getName() + " done ---");
-                String buildPath = project.getBuildDir().getPath();
-                String projectPath = project.getProjectDir().getPath();
-                if ("assembleDebug".equals(task.getName())) {
-                    String debugApkPath = buildPath + "/outputs/apk/debug/";
-                    moveApk(debugApkPath, projectPath);
-                }
                 if ("assembleRelease".equals(task.getName())) {
                     containRelease = true;
                     System.out.println(mMoveApk.toString());
@@ -46,29 +39,29 @@ public class MoveApkPlugin implements Plugin<Project> {
 
         project.getGradle().addBuildListener(new BuildListener() {
             @Override
-            public void buildStarted(Gradle gradle) {
+            public void buildStarted(@NotNull Gradle gradle) {
 
             }
 
             @Override
-            public void settingsEvaluated(Settings settings) {
+            public void settingsEvaluated(@NotNull Settings settings) {
 
             }
 
             @Override
-            public void projectsLoaded(Gradle gradle) {
+            public void projectsLoaded(@NotNull Gradle gradle) {
 
             }
 
             @Override
-            public void projectsEvaluated(Gradle gradle) {
+            public void projectsEvaluated(@NotNull Gradle gradle) {
 
             }
 
             @Override
-            public void buildFinished(BuildResult buildResult) {
+            public void buildFinished(@NotNull BuildResult buildResult) {
                 if (containRelease) {
-                    System.out.println("buildFinished !!! Time to for copy release apk");
+                    System.out.println("\n\nbuildFinished !!! Time to for copy release apk");
                     String projectPath = project.getProjectDir().getPath();
 
                     try {
@@ -100,36 +93,18 @@ public class MoveApkPlugin implements Plugin<Project> {
             System.err.println(apkPath + " do not contain any file what it's name end with apk");
             return;
         }
-        String distPath = (StringUtil.isEmpty(mMoveApk.distPath) ? "/Users/jiang/apk" : mMoveApk.distPath) + File.separator;
+        if (StringUtil.isEmpty(mMoveApk.distPath)) {
+            System.err.println("You must set distPath in Your app/build.gradle to be continue... eg: /Users/jiang/apk");
+            return;
+        }
+        String distPath = mMoveApk.distPath + File.separator;
         String distFolder = (StringUtil.isEmpty(mMoveApk.distFolder) ? StringUtil.getTime() : mMoveApk.distFolder) + File.separator;
         FileUtil.copyFile(apkFile, new File(distPath + distFolder + apkFile.getName()));
         if (mMoveApk.minifyEnabled) {
-            System.out.println("copy From : " + projectPath + "/build/outputs/mapping/release/");
-            System.out.println("copy To   : " + distPath + distFolder + "mapping/");
             FileUtil.copyDir(projectPath + "/build/outputs/mapping/release/", distPath + distFolder + "mapping/");
         }
-        System.out.println("copy release apk file success");
+        System.out.println("copy to : " + distPath + distFolder);
 
     }
 
-    private void moveApk(String inputPath, String outputPath) {
-        List<File> files = FileUtil.listFilesInDir(inputPath);
-        if (files.isEmpty()) {
-            System.err.println(inputPath + " do not contain any files");
-            return;
-        }
-        File apkFile = null;
-        for (File file : files) {
-            if (FileUtil.getFileExtension(file).equals("apk")) {
-                apkFile = file;
-                break;
-            }
-        }
-        if (apkFile == null) {
-            System.err.println(inputPath + " do not contain any file what it's name end with apk");
-            return;
-        }
-        FileUtil.copyFile(apkFile, new File(outputPath + File.separator + apkFile.getName()));
-        System.out.println("copy file success");
-    }
 }
