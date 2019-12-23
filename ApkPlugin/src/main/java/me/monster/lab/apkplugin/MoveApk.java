@@ -5,18 +5,10 @@ package me.monster.lab.apkplugin;
  * @author: Created jiangjiwei in 2019-12-20 13:33
  */
 public class MoveApk {
-    public boolean minifyEnabled;
-
     public String distFolder;
     public String distPath;
 
-    public boolean isMinifyEnabled() {
-        return minifyEnabled;
-    }
-
-    public void setMinifyEnabled(boolean minifyEnabled) {
-        this.minifyEnabled = minifyEnabled;
-    }
+    public String distPrefix;
 
     public String getDistFolder() {
         return distFolder == null ? "" : distFolder;
@@ -34,10 +26,17 @@ public class MoveApk {
         this.distPath = distPath;
     }
 
+    public String getDistPrefix() {
+        return distPrefix == null ? "" : distPrefix;
+    }
+
+    public void setDistPrefix(String distPrefix) {
+        this.distPrefix = distPrefix;
+    }
+
     @Override
     public String toString() {
         return "MoveApk{" +
-                "minifyEnabled=" + minifyEnabled +
                 ", distFolder='" + distFolder + '\'' +
                 ", distPath='" + distPath + '\'' +
                 '}';

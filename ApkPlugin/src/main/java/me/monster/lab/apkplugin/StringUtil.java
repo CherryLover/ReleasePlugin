@@ -9,7 +9,7 @@ import java.util.Locale;
  * @author: Created jiangjiwei in 2019-12-20 14:31
  */
 public class StringUtil {
-    public static boolean isEmpty(String string) {
+    static boolean isEmpty(String string) {
         return string == null || string.length() == 0;
     }
 
@@ -17,8 +17,13 @@ public class StringUtil {
         return !isEmpty(s);
     }
 
-    public static String getTime() {
-        SimpleDateFormat format = new SimpleDateFormat("yyyyMMddHHmmss", Locale.CHINA);
+    static String getTimeDay() {
+        SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd", Locale.CHINA);
+        return format.format(new Date(System.currentTimeMillis()));
+    }
+
+    static String getTimeMinute() {
+        SimpleDateFormat format = new SimpleDateFormat("yyyyMMddHHmm", Locale.CHINA);
         return format.format(new Date(System.currentTimeMillis()));
     }
 }
