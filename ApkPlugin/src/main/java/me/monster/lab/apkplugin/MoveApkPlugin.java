@@ -120,7 +120,7 @@ public class MoveApkPlugin implements Plugin<Project> {
         String distFolder = (StringUtil.isEmpty(mMoveApk.distFolder) ? StringUtil.getTimeDay() : mMoveApk.distFolder) + File.separator;
         FileUtil.copyFile(apkFile, new File(getApkName(distPath, distFolder)));
         if (minifyEnabled) {
-            FileUtil.copyDir(projectPath + "/build/outputs/mapping/release/", distPath + distFolder + "mapping/");
+            FileUtil.copyDir(projectPath + "/build/outputs/mapping/release/", distPath + distFolder + "mapping" + versionName + File.separator);
         }
         System.out.println("copy to : " + distPath + distFolder);
     }
