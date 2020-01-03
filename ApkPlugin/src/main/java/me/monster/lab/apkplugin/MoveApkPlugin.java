@@ -19,6 +19,7 @@ import org.gradle.api.tasks.TaskState;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
 public class MoveApkPlugin implements Plugin<Project> {
@@ -97,13 +98,7 @@ public class MoveApkPlugin implements Plugin<Project> {
             System.err.println(apkPath + " do not contain any files");
             return;
         }
-        File apkFile = null;
-        for (File file : files) {
-            if (FileUtil.getFileExtension(file).equals("apk")) {
-                apkFile = file;
-                break;
-            }
-        }
+        File apkFile = getApkFile(files);
         if (apkFile == null) {
             System.err.println(apkPath + " do not contain any file what it's name end with apk");
             return;
@@ -123,6 +118,27 @@ public class MoveApkPlugin implements Plugin<Project> {
             FileUtil.copyDir(projectPath + "/build/outputs/mapping/release/", distPath + distFolder + "mapping" + versionName + File.separator);
         }
         System.out.println("copy to : " + distPath + distFolder);
+    }
+
+    public File getApkFile(List<File> files) {
+        List<File> apkFiles = new ArrayList<>();
+        for (File file : files) {
+            if (FileUtil.getFileExtension(file).equals("apk")) {
+                apkFiles.add(file);
+            }
+        }
+        if (apkFiles.isEmpty()) {
+            return null;
+        }
+        long newOne = apkFiles.get(0).lastModified();
+        File lastModified = null;
+        for (File apkFile : apkFiles) {
+            if (apkFile.lastModified() > newOne) {
+                newOne = apkFile.lastModified();
+                lastModified = apkFile;
+            }
+        }
+        return lastModified;
     }
 
     private String getApkName(String path, String folder) {

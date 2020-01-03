@@ -26,4 +26,9 @@ public class StringUtil {
         SimpleDateFormat format = new SimpleDateFormat("yyyyMMddHHmm", Locale.CHINA);
         return format.format(new Date(System.currentTimeMillis()));
     }
+
+    static String format(Date date) {
+        SimpleDateFormat format = new SimpleDateFormat("yyyyMMddHHmm", Locale.CHINA);
+        return format.format(date);
+    }
 }
