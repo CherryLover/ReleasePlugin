@@ -15,15 +15,17 @@ ReleasePlugin is a Plugin for Android Developer. He helps developer to copy rele
      ......
    }
    moveapk {
-       minifyEnabled true
        distPath "/Users/jiang/Zuo"
+       distPrefix "apkNamePrefix"
    }
    ```
 
-   - minifyEnabled
-      is your buildType release minifyEnable value.
    - distPath
      is a place in your computer. eg: Mac: `/Users/YourName/releaseApk`, Windows: `D:\\releaseApk`
+     
+   - distPrefix
+     
+     You can rename for the release apk with prefix, and detail rule is `"release-" + prefix + "-" + versionName + (minifyEnabled ? "-proguard-" : "-") + StringUtil.getTimeMinute() + ".apk";`
 
 #### Set distFolder [option]
 
@@ -31,7 +33,6 @@ you can set distFolder in your distPath for save release apk every times.
 
 ```groovy
 moveapk {
-    minifyEnabled true
     distFolder "your folder prefix-${getAssembleDate()}"
     distPath "/Users/jiang/Zuo"
 }
