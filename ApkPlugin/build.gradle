@@ -6,10 +6,10 @@ apply plugin: 'maven'
 
 uploadArchives {
     repositories.mavenDeployer {
-        pom.version = '0.0.37'
+        pom.version = '0.0.38'
         pom.artifactId = 'apkplugin'
         pom.groupId = 'me.monster.lab'
-        repository(url: "file:///Users/jiang/Code/AndroidAAr/repository/")
+        repository(url: "file:///Users/jiangjiwei/Code/AndroidAAr/repository/")
     }
 }
 

@@ -130,8 +130,8 @@ public class MoveApkPlugin implements Plugin<Project> {
         if (apkFiles.isEmpty()) {
             return null;
         }
-        long newOne = apkFiles.get(0).lastModified();
-        File lastModified = null;
+        File lastModified = apkFiles.get(0);
+        long newOne = lastModified.lastModified();
         for (File apkFile : apkFiles) {
             if (apkFile.lastModified() > newOne) {
                 newOne = apkFile.lastModified();
